@@ -23,7 +23,7 @@ interface ConversationViewProps {
   activeSkill: string | null;
   setActiveSkill: (skill: string | null) => void;
   skills: Skill[];
-  appVersion?: 'habilidades1' | 'personalizacao_habilidade' | 'gpt_gems';
+  appVersion?: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems';
   activeGemId: string | null;
   activeConversationId: number | null;
   gems: Gem[];

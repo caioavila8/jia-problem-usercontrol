@@ -43,7 +43,7 @@ interface ChatInputProps {
   activeSkill: string | null;
   setActiveSkill: (skill: string | null) => void;
   skills: Skill[];
-  appVersion?: 'habilidades1' | 'personalizacao_habilidade' | 'gpt_gems';
+  appVersion?: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems';
 }
 
 export function ChatInput({

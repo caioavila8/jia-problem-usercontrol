@@ -357,7 +357,24 @@ export default function App() {
   const [currentView, setCurrentView] = useState<'home' | 'conversation' | 'skills' | 'global_preferences' | 'gems_editor'>('home');
   const [activeConversationId, setActiveConversationId] = useState<number | null>(null);
   const [isVersionsMenuOpen, setIsVersionsMenuOpen] = useState(false);
-  const [appVersion, setAppVersion] = useState<'habilidades1' | 'personalizacao_habilidade' | 'gpt_gems'>('gpt_gems');
+  const [appVersion, setAppVersion] = useState<'habilidades' | 'personalizacao_habilidade' | 'gpt_gems'>('habilidades');
+
+  // Handle version from URL query parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const version = params.get('v');
+    if (version === 'habilidades' || version === 'personalizacao_habilidade' || version === 'gpt_gems') {
+      setAppVersion(version as any);
+    }
+  }, []);
+
+  // Update URL when version changes
+  const handleVersionChange = (version: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems') => {
+    setAppVersion(version);
+    const url = new URL(window.location.href);
+    url.searchParams.set('v', version);
+    window.history.pushState({}, '', url.toString());
+  };
   const [isPersonalizationMenuOpen, setIsPersonalizationMenuOpen] = useState(false);
   const [isSkillEditorOpen, setIsSkillEditorOpen] = useState(false);
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
@@ -513,7 +530,7 @@ export default function App() {
                   );
                 })}
               </div>
-            ) : appVersion === 'habilidades1' ? (
+            ) : appVersion === 'habilidades' ? (
               <SidebarItem 
                 icon={<CustomHabilidadesIcon size={20} />} 
                 label="Habilidades" 
@@ -731,21 +748,21 @@ export default function App() {
                         className="absolute left-full bottom-0 ml-1 bg-white border border-slate-200 rounded-xl shadow-2xl py-2 z-[110] min-w-[240px]"
                       >
                         <button 
-                          onClick={() => setAppVersion('habilidades1')}
-                          className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors whitespace-nowrap ${appVersion === 'habilidades1' ? 'bg-[#E6F4F0] text-[#007A5F]' : 'text-slate-700 hover:bg-slate-50'}`}
+                          onClick={() => handleVersionChange('habilidades')}
+                          className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors whitespace-nowrap ${appVersion === 'habilidades' ? 'bg-[#E6F4F0] text-[#007A5F]' : 'text-slate-700 hover:bg-slate-50'}`}
                         >
-                          <span className="font-medium">Habilidades 1</span>
-                          {appVersion === 'habilidades1' && <Check size={14} className="ml-auto text-[#007A5F]" />}
+                          <span className="font-medium">Habilidades</span>
+                          {appVersion === 'habilidades' && <Check size={14} className="ml-auto text-[#007A5F]" />}
                         </button>
                         <button 
-                          onClick={() => setAppVersion('personalizacao_habilidade')}
+                          onClick={() => handleVersionChange('personalizacao_habilidade')}
                           className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors whitespace-nowrap ${appVersion === 'personalizacao_habilidade' ? 'bg-[#E6F4F0] text-[#007A5F]' : 'text-slate-700 hover:bg-slate-50'}`}
                         >
                           <span className="font-medium">Personalização e Habilidade</span>
                           {appVersion === 'personalizacao_habilidade' && <Check size={14} className="ml-auto text-[#007A5F]" />}
                         </button>
                         <button 
-                          onClick={() => setAppVersion('gpt_gems')}
+                          onClick={() => handleVersionChange('gpt_gems')}
                           className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors whitespace-nowrap ${appVersion === 'gpt_gems' ? 'bg-[#E6F4F0] text-[#007A5F]' : 'text-slate-700 hover:bg-slate-50'}`}
                         >
                           <span className="font-medium">Agentes</span>
