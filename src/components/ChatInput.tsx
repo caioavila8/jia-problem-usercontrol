@@ -119,37 +119,39 @@ export function ChatInput({
     }
   };
 
-  const insertSkillChip = (skillName: string) => {
+  const insertSkillChip = (skillName: string, fromButton: boolean = false) => {
     const selection = window.getSelection();
     let range: Range | null = null;
 
-    if (selection && selection.rangeCount > 0) {
+    if (!fromButton && selection && selection.rangeCount > 0) {
       range = selection.getRangeAt(0);
-    } else if (lastRange) {
+    } else if (!fromButton && lastRange) {
       range = lastRange;
     }
 
-    if (!range) {
+    // If no range or range is outside editor, or we're explicitly coming from the button
+    if (!range || !editorRef.current?.contains(range.startContainer) || fromButton) {
       editorRef.current?.focus();
-      const newSelection = window.getSelection();
-      if (newSelection && newSelection.rangeCount > 0) {
-        range = newSelection.getRangeAt(0);
-      }
+      const newRange = document.createRange();
+      newRange.selectNodeContents(editorRef.current!);
+      newRange.collapse(false); // Move to end
+      range = newRange;
     }
 
     if (!range) return;
 
-    // If there's a slash before the cursor, remove it
-    const textNode = range.startContainer;
-    const offset = range.startOffset;
-    if (textNode.nodeType === Node.TEXT_NODE) {
-      const text = textNode.textContent || '';
-      const lastSlashIndex = text.substring(0, offset).lastIndexOf('/');
-      // Check if the slash is immediately before the cursor or part of the current query
-      if (lastSlashIndex !== -1 && offset - lastSlashIndex <= slashQuery.length + 1) {
-        range.setStart(textNode, lastSlashIndex);
-        range.setEnd(textNode, offset);
-        range.deleteContents();
+    // If there's a slash before the cursor, remove it (only if not from button)
+    if (!fromButton) {
+      const textNode = range.startContainer;
+      const offset = range.startOffset;
+      if (textNode.nodeType === Node.TEXT_NODE) {
+        const text = textNode.textContent || '';
+        const lastSlashIndex = text.substring(0, offset).lastIndexOf('/');
+        if (lastSlashIndex !== -1 && offset - lastSlashIndex <= slashQuery.length + 1) {
+          range.setStart(textNode, lastSlashIndex);
+          range.setEnd(textNode, offset);
+          range.deleteContents();
+        }
       }
     }
 
@@ -316,7 +318,7 @@ export function ChatInput({
                       {availableSkills.map(skill => (
                         <button 
                           key={skill.id}
-                          onClick={() => insertSkillChip(skill.name)}
+                          onClick={() => insertSkillChip(skill.name, true)}
                           className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[#FAFAFA] text-[#4A4A4A] transition-colors text-left"
                         >
                           <div className="w-6 h-6 rounded bg-[#F3F4F6] flex items-center justify-center text-[#9CA3AF]">

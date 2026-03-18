@@ -374,59 +374,6 @@ export const SkillEditor: React.FC<SkillEditorProps> = ({ skill, onSave, onClose
                 )}
               </section>
 
-              {/* Initial Phrases */}
-              <div className="space-y-3 mt-8">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-[14px] font-bold text-[#111827]">Frases iniciais</h3>
-                    <p className="text-[11px] text-[#6B7280] mt-0.5">Sugestões para o usuário iniciar a conversa</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  {initialPhrases.map((phrase, idx) => (
-                    <div key={idx} className="flex items-center gap-2 group">
-                      <div className="flex-1 px-3 py-2 bg-[#F3F4F6] border border-transparent rounded-lg text-sm text-[#4B5563]">
-                        {phrase}
-                      </div>
-                      <button 
-                        onClick={() => setInitialPhrases(prev => prev.filter((_, i) => i !== idx))}
-                        className="p-2 text-[#9CA3AF] hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  ))}
-                  
-                  <div className="flex items-center gap-2">
-                    <input 
-                      type="text"
-                      value={newPhrase}
-                      onChange={(e) => setNewPhrase(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && newPhrase.trim()) {
-                          setInitialPhrases([...initialPhrases, newPhrase.trim()]);
-                          setNewPhrase('');
-                        }
-                      }}
-                      placeholder="Adicione uma sugestão de pergunta..."
-                      className="flex-1 px-3 py-2 text-sm bg-white border border-[#D1D5DB] rounded-lg outline-none focus:border-[#007A5F] transition-all"
-                    />
-                    <button 
-                      onClick={() => {
-                        if (newPhrase.trim()) {
-                          setInitialPhrases([...initialPhrases, newPhrase.trim()]);
-                          setNewPhrase('');
-                        }
-                      }}
-                      className="p-2 bg-[#007A5F] text-white rounded-lg hover:bg-[#006650] transition-colors"
-                    >
-                      <Plus size={20} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
               {/* Objetividade */}
               <section className="space-y-3 pt-4 border-t border-[#F3F4F6]">
                 <div>
