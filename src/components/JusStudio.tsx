@@ -180,7 +180,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                           {msg.role === 'user' ? 'J' : <Sparkles size={16} />}
                         </div>
                         <div className={`flex flex-col gap-1 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-                          <div className={`rounded-2xl px-4 py-3 text-[14px] leading-relaxed shadow-sm ${
+                          <div className={`rounded-lg px-4 py-3 text-[14px] leading-relaxed ${
                             msg.role === 'user' 
                               ? 'bg-slate-100 text-slate-800 rounded-tr-none' 
                               : 'bg-white border border-slate-100 text-slate-700 rounded-tl-none'
@@ -192,15 +192,15 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                     </div>
                   ))}
                 </div>
-                <div className="relative">
-                  <input 
-                    type="text"
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
-                    placeholder="Diga como você quer que seu agente seja..."
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 pr-12 text-sm outline-none focus:border-slate-400 transition-all shadow-sm"
-                  />
+                  <div className="relative">
+                    <input 
+                      type="text"
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleChatSubmit()}
+                      placeholder="Diga como você quer que seu agente seja..."
+                      className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 pr-12 text-sm outline-none focus:border-slate-400 transition-all"
+                    />
                   <button 
                     onClick={handleChatSubmit}
                     className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-slate-900 text-white rounded-lg flex items-center justify-center hover:bg-slate-800 transition-colors"
@@ -213,7 +213,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
               <div className="p-8 flex flex-col gap-8 max-w-2xl mx-auto">
                 {/* Icon Picker Placeholder */}
                 <div className="flex flex-col items-center gap-4">
-                  <div className={`w-20 h-20 rounded-2xl ${gem?.color || 'bg-slate-100'} border-2 border-dashed border-slate-300 flex items-center justify-center text-white cursor-pointer hover:border-slate-400 transition-all`}>
+                  <div className={`w-20 h-20 rounded-lg ${gem?.color || 'bg-slate-100'} border-2 border-dashed border-slate-300 flex items-center justify-center text-white cursor-pointer hover:border-slate-400 transition-all`}>
                     <Sparkles size={32} />
                   </div>
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Ícone do Agente</span>
@@ -223,35 +223,35 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-bold text-slate-700">Nome</label>
-                    <input 
-                      type="text" 
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Dê um nome ao seu agente"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-slate-400 transition-all"
-                    />
+                      <input 
+                        type="text" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Dê um nome ao seu agente"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-slate-400 transition-all"
+                      />
                   </div>
 
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-bold text-slate-700">Descrição</label>
-                    <input 
-                      type="text" 
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Uma breve descrição do que ele faz"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-slate-400 transition-all"
-                    />
+                      <input 
+                        type="text" 
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Uma breve descrição do que ele faz"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-slate-400 transition-all"
+                      />
                   </div>
 
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-bold text-slate-700">Instruções</label>
-                    <textarea 
-                      rows={6}
-                      value={instructions}
-                      onChange={(e) => setInstructions(e.target.value)}
-                      placeholder="O que este agente faz? Como ele se comporta? O que ele deve evitar?"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-slate-400 transition-all resize-none"
-                    />
+                      <textarea 
+                        rows={6}
+                        value={instructions}
+                        onChange={(e) => setInstructions(e.target.value)}
+                        placeholder="O que este agente faz? Como ele se comporta? O que ele deve evitar?"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-slate-400 transition-all resize-none"
+                      />
                   </div>
 
                   <div className="flex flex-col gap-4">
@@ -267,17 +267,17 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                     <div className="flex flex-col gap-2">
                       {starters.map((starter, i) => (
                         <div key={i} className="relative group">
-                          <input 
-                            type="text" 
-                            value={starter}
-                            onChange={(e) => {
-                              const newStarters = [...starters];
-                              newStarters[i] = e.target.value;
-                              setStarters(newStarters);
-                            }}
-                            placeholder={`Exemplo de pergunta ${i + 1}`}
-                            className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 pr-10 text-sm outline-none focus:border-slate-400 transition-all"
-                          />
+                            <input 
+                              type="text" 
+                              value={starter}
+                              onChange={(e) => {
+                                const newStarters = [...starters];
+                                newStarters[i] = e.target.value;
+                                setStarters(newStarters);
+                              }}
+                              placeholder={`Exemplo de pergunta ${i + 1}`}
+                              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 pr-10 text-sm outline-none focus:border-slate-400 transition-all"
+                            />
                           <button 
                             onClick={() => setStarters(starters.filter((_, idx) => idx !== i))}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all"
@@ -296,7 +296,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                         <Info size={14} className="text-slate-400" />
                       </div>
                     </div>
-                    <button className="w-full py-8 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all group">
+                    <button className="w-full py-8 border-2 border-dashed border-slate-200 rounded-lg flex flex-col items-center justify-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all group">
                       <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-white transition-colors">
                         <Paperclip size={20} />
                       </div>
@@ -318,7 +318,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
           <div className="flex-1 overflow-y-auto p-8 flex flex-col gap-8 custom-scrollbar">
             {previewMessages.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto">
-                <div className={`w-16 h-16 rounded-2xl ${gem?.color || 'bg-slate-100'} flex items-center justify-center text-white mb-4 shadow-sm`}>
+                <div className={`w-16 h-16 rounded-lg ${gem?.color || 'bg-slate-100'} flex items-center justify-center text-white mb-4`}>
                   <Sparkles size={32} />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 mb-2">{name || 'Novo Agente'}</h3>
@@ -333,7 +333,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                         // Trigger submit manually
                         setTimeout(() => handlePreviewSubmit(), 100);
                       }}
-                      className="p-3 text-xs text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all text-left font-medium flex items-center gap-3"
+                      className="p-3 text-xs text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all text-left font-medium flex items-center gap-3"
                     >
                       <MessageSquareText size={14} className="text-slate-400" />
                       {starter}
@@ -352,7 +352,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
                         {msg.role === 'user' ? 'J' : <Sparkles size={16} />}
                       </div>
                       <div className={`flex flex-col gap-1 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-                        <div className={`rounded-2xl px-4 py-3 text-[15px] leading-relaxed shadow-sm ${
+                        <div className={`rounded-lg px-4 py-3 text-[15px] leading-relaxed ${
                           msg.role === 'user' 
                             ? 'bg-slate-100 text-slate-800 rounded-tr-none' 
                             : 'bg-white border border-slate-100 text-slate-700 rounded-tl-none'
@@ -369,7 +369,7 @@ export function JusStudio({ gem, onClose, onSave }: JusStudioProps) {
 
           <div className="p-6 border-t border-slate-100">
             <div className="max-w-2xl mx-auto w-full">
-              <div className="relative border border-slate-200 rounded-2xl bg-white shadow-sm flex flex-col">
+              <div className="relative border border-slate-200 rounded-lg bg-white flex flex-col">
                 <div className="p-4 flex items-center gap-3">
                   <button className="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg text-slate-400 hover:bg-slate-50 transition-colors">
                     <Plus size={18} />

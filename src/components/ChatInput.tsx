@@ -43,7 +43,9 @@ interface ChatInputProps {
   activeSkill: string | null;
   setActiveSkill: (skill: string | null) => void;
   skills: Skill[];
-  appVersion?: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems';
+  appVersion?: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems' | 'modo_plano';
+  executionMode?: 'padrao' | 'plano';
+  setExecutionMode?: (mode: 'padrao' | 'plano') => void;
 }
 
 export function ChatInput({
@@ -60,14 +62,18 @@ export function ChatInput({
   activeSkill,
   setActiveSkill,
   skills,
-  appVersion
+  appVersion,
+  executionMode,
+  setExecutionMode
 }: ChatInputProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const skillMenuRef = useRef<HTMLDivElement>(null);
   const slashMenuRef = useRef<HTMLDivElement>(null);
+  const modeMenuRef = useRef<HTMLDivElement>(null);
   
   const [isSkillMenuOpen, setIsSkillMenuOpen] = useState(false);
   const [isSlashMenuOpen, setIsSlashMenuOpen] = useState(false);
+  const [isModeMenuOpen, setIsModeMenuOpen] = useState(false);
   const [slashQuery, setSlashQuery] = useState('');
   const [lastRange, setLastRange] = useState<Range | null>(null);
 
@@ -80,6 +86,9 @@ export function ChatInput({
       }
       if (slashMenuRef.current && !slashMenuRef.current.contains(event.target as Node)) {
         setIsSlashMenuOpen(false);
+      }
+      if (modeMenuRef.current && !modeMenuRef.current.contains(event.target as Node)) {
+        setIsModeMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -204,7 +213,7 @@ export function ChatInput({
   };
 
   return (
-    <div className="border border-slate-200 rounded-2xl bg-white transition-all relative flex flex-col w-full">
+    <div className="border border-slate-200 rounded-lg bg-white transition-all relative flex flex-col w-full">
       <div className="p-4 relative z-20">
         
         {/* Input area */}
@@ -226,7 +235,7 @@ export function ChatInput({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="absolute bottom-full left-0 mb-2 w-72 bg-white border border-[#E5E5E5] rounded-xl shadow-xl py-2 z-30"
+                className="absolute bottom-full left-0 mb-2 w-72 bg-white border border-[#E5E5E5] rounded-lg py-2 z-30"
               >
                 <div className="px-4 py-2 text-[10px] font-bold text-[#8A8A8A] uppercase tracking-wider">Habilidades</div>
                 {availableSkills.filter(s => s.name.toLowerCase().includes(slashQuery.toLowerCase())).map(skill => (
@@ -267,7 +276,7 @@ export function ChatInput({
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute bottom-full left-0 mb-2 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-20"
+                    className="absolute bottom-full left-0 mb-2 w-64 bg-white border border-slate-200 rounded-lg py-2 z-20"
                   >
                     <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 text-slate-700 transition-colors">
                       <Paperclip size={20} className="text-slate-600" />
@@ -296,7 +305,7 @@ export function ChatInput({
             </button>
 
             {/* Skill Selector Button */}
-            {appVersion !== 'gpt_gems' && (
+            {appVersion !== 'gpt_gems' && appVersion !== 'modo_plano' && (
               <div className="relative" ref={skillMenuRef}>
                 <button 
                   onClick={() => setIsSkillMenuOpen(!isSkillMenuOpen)}
@@ -312,7 +321,7 @@ export function ChatInput({
                       initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                      className="absolute bottom-full left-0 mb-2 w-72 bg-white border border-[#E5E5E5] rounded-xl shadow-xl py-2 z-20"
+                      className="absolute bottom-full left-0 mb-2 w-72 bg-white border border-[#E5E5E5] rounded-lg py-2 z-20"
                     >
                       <div className="px-4 py-2 text-[10px] font-bold text-[#8A8A8A] uppercase tracking-wider">Habilidades</div>
                       {availableSkills.map(skill => (
@@ -345,6 +354,59 @@ export function ChatInput({
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Mode Selector (Modo Plano only) */}
+            {appVersion === 'modo_plano' && (
+              <div className="relative" ref={modeMenuRef}>
+                <button 
+                  onClick={() => setIsModeMenuOpen(!isModeMenuOpen)}
+                  className={`flex items-center gap-2 px-3 h-9 rounded-lg text-slate-600 hover:bg-slate-100 transition-all ${isModeMenuOpen ? 'bg-slate-100' : ''}`}
+                >
+                  <span className="text-[13px] font-semibold">
+                    {executionMode === 'padrao' ? 'Padrão' : 'Modo Plano'}
+                  </span>
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${isModeMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {isModeMenuOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      className="absolute bottom-full right-0 mb-2 w-64 bg-white border border-[#E5E5E5] rounded-lg py-2 z-20"
+                    >
+                      <button 
+                        onClick={() => {
+                          setExecutionMode?.('padrao');
+                          setIsModeMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 hover:bg-[#FAFAFA] text-left transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-[#4A4A4A]">Padrão</span>
+                          {executionMode === 'padrao' && <Check size={14} className="text-[#007A5F]" />}
+                        </div>
+                        <p className="text-[11px] text-[#8A8A8A] mt-0.5">Execução direta e imediata.</p>
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setExecutionMode?.('plano');
+                          setIsModeMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 hover:bg-[#FAFAFA] text-left transition-colors"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-[#4A4A4A]">Modo Plano</span>
+                          {executionMode === 'plano' && <Check size={14} className="text-[#007A5F]" />}
+                        </div>
+                        <p className="text-[11px] text-[#8A8A8A] mt-0.5">Cria um plano detalhado antes de executar.</p>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
             <button 
               onClick={() => setIsRecording(!isRecording)}
               className={`w-9 h-9 flex items-center justify-center border rounded-lg transition-all duration-300 relative ${isRecording ? 'border-red-200 bg-red-50 text-red-500' : 'border-slate-300 text-slate-600 hover:bg-slate-50'}`}

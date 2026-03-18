@@ -96,7 +96,7 @@ export const SkillsDashboard: React.FC<SkillsDashboardProps> = ({
           </div>
           <button 
             onClick={onCreateSkill}
-            className="flex items-center gap-2 bg-[#007A5F] text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#00664F] transition-all shadow-sm active:scale-95"
+            className="flex items-center gap-2 bg-[#007A5F] text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#00664F] transition-all active:scale-95"
           >
             <Plus size={18} />
             Criar habilidade
@@ -130,7 +130,7 @@ export const SkillsDashboard: React.FC<SkillsDashboardProps> = ({
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="col-span-full py-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200"
+                  className="col-span-full py-12 text-center bg-slate-50 rounded-lg border border-dashed border-slate-200"
                 >
                   <p className="text-slate-500 text-sm">Você ainda não possui habilidades instaladas.</p>
                 </motion.div>
@@ -213,9 +213,9 @@ const FeaturedCard: React.FC<{
       } : {}}
       transition={isNew ? { duration: 1.2, times: [0, 0.4, 1] } : {}}
       onClick={isExplorar ? undefined : onConfigure}
-      className={`bg-white border border-slate-200 rounded-2xl p-4 flex items-center gap-4 transition-all ${isExplorar ? '' : 'cursor-pointer'}`}
+      className={`bg-white border border-slate-200 rounded-lg p-4 flex items-center gap-4 transition-all ${isExplorar ? '' : 'cursor-pointer'}`}
     >
-      <div className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ${themeData.bg}`}>
+      <div className={`w-14 h-14 rounded-lg flex items-center justify-center shrink-0 ${themeData.bg}`}>
         <Icon size={28} className={themeData.text} />
       </div>
       

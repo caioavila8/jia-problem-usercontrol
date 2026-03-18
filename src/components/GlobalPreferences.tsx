@@ -72,14 +72,14 @@ export const GlobalPreferences: React.FC = () => {
               <h3 className="text-[16px] font-bold text-[#111827]">Objetividade da resposta</h3>
               <p className="text-[13px] text-[#6B7280] mt-1">Define se as respostas/peças devem ser concisas ou expandir um pouco mais.</p>
             </div>
-            <div className="flex p-1 bg-[#F3F4F6] rounded-xl w-full">
+            <div className="flex p-1 bg-[#F3F4F6] rounded-lg w-full">
               {['Enxuto', 'Equilibrado', 'Detalhado'].map((option) => (
                 <div key={option} className="flex-1 relative group/tooltip">
                   <button
                     onClick={() => setObjetividade(option)}
                     className={`w-full py-2.5 text-sm font-semibold rounded-lg transition-all ${
                       objetividade === option 
-                        ? 'bg-[#111827] text-white shadow-sm' 
+                        ? 'bg-[#111827] text-white' 
                         : 'text-[#4B5563] hover:text-[#111827]'
                     }`}
                   >
@@ -101,14 +101,14 @@ export const GlobalPreferences: React.FC = () => {
               <h3 className="text-[16px] font-bold text-[#111827]">Formalidade jurídica</h3>
               <p className="text-[13px] text-[#6B7280] mt-1">Define o nível de linguagem jurídica das respostas/peças</p>
             </div>
-            <div className="flex p-1 bg-[#F3F4F6] rounded-xl w-full">
+            <div className="flex p-1 bg-[#F3F4F6] rounded-lg w-full">
               {['Simples', 'Normal', 'Técnica'].map((option) => (
                 <div key={option} className="flex-1 relative group/tooltip">
                   <button
                     onClick={() => setFormalidade(option)}
                     className={`w-full py-2.5 text-sm font-semibold rounded-lg transition-all ${
                       formalidade === option 
-                        ? 'bg-[#111827] text-white shadow-sm' 
+                        ? 'bg-[#111827] text-white' 
                         : 'text-[#4B5563] hover:text-[#111827]'
                     }`}
                   >
@@ -131,7 +131,7 @@ export const GlobalPreferences: React.FC = () => {
                 <h3 className="text-[16px] font-bold text-[#111827]">Tribunais de preferência</h3>
                 <p className="text-[13px] text-[#6B7280] mt-1">Define tribunais que tem prioridade das respostas/peças</p>
               </div>
-              <div className="flex flex-wrap gap-2 p-3 border border-[#D1D5DB] rounded-xl bg-white min-h-[48px] focus-within:border-[#007A5F] transition-all">
+              <div className="flex flex-wrap gap-2 p-3 border border-[#D1D5DB] rounded-lg bg-white min-h-[48px] focus-within:border-[#007A5F] transition-all">
                 {selectedTribunais.map(t => (
                   <span key={t} className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F3F4F6] text-[#111827] text-xs font-bold rounded-full border border-[#E5E7EB]">
                     {t}
@@ -158,7 +158,7 @@ export const GlobalPreferences: React.FC = () => {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
-                    className="absolute z-50 top-full left-0 right-0 mt-2 bg-white border border-[#E5E7EB] rounded-xl shadow-xl max-h-60 overflow-y-auto custom-scrollbar py-2"
+                    className="absolute z-50 top-full left-0 right-0 mt-2 bg-white border border-[#E5E7EB] rounded-lg max-h-60 overflow-y-auto custom-scrollbar py-2"
                   >
                     {TRIBUNAIS.filter(t => t.toLowerCase().includes(tribunalQuery.toLowerCase()) && !selectedTribunais.includes(t)).map(t => (
                       <button
@@ -186,7 +186,7 @@ export const GlobalPreferences: React.FC = () => {
                 <h3 className="text-[16px] font-bold text-[#111827]">Áreas do direito</h3>
                 <p className="text-[13px] text-[#6B7280] mt-1">Reforça quais áreas o Jus IA deve ser especialista</p>
               </div>
-              <div className="flex flex-wrap gap-2 p-3 border border-[#D1D5DB] rounded-xl bg-white min-h-[48px] focus-within:border-[#007A5F] transition-all">
+              <div className="flex flex-wrap gap-2 p-3 border border-[#D1D5DB] rounded-lg bg-white min-h-[48px] focus-within:border-[#007A5F] transition-all">
                 {selectedAreas.map(a => (
                   <span key={a} className="flex items-center gap-1.5 px-3 py-1.5 bg-[#F3F4F6] text-[#111827] text-xs font-bold rounded-full border border-[#E5E7EB]">
                     {a}
@@ -213,7 +213,7 @@ export const GlobalPreferences: React.FC = () => {
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
-                    className="absolute z-50 top-full left-0 right-0 mt-2 bg-white border border-[#E5E7EB] rounded-xl shadow-xl max-h-60 overflow-y-auto custom-scrollbar py-2"
+                    className="absolute z-50 top-full left-0 right-0 mt-2 bg-white border border-[#E5E7EB] rounded-lg max-h-60 overflow-y-auto custom-scrollbar py-2"
                   >
                     {AREAS_DIREITO.filter(a => a.toLowerCase().includes(areaQuery.toLowerCase()) && !selectedAreas.includes(a)).map(a => (
                       <button
@@ -245,7 +245,7 @@ export const GlobalPreferences: React.FC = () => {
               onChange={(e) => setOrientacoes(e.target.value)}
               placeholder="Ex: Sempre cite a jurisprudência do STJ primeiro..."
               rows={6}
-              className="w-full px-4 py-3 text-sm bg-white border border-[#D1D5DB] rounded-xl outline-none focus:border-[#007A5F] transition-all resize-none"
+              className="w-full px-4 py-3 text-sm bg-white border border-[#D1D5DB] rounded-lg outline-none focus:border-[#007A5F] transition-all resize-none"
             />
           </section>
 
@@ -253,7 +253,7 @@ export const GlobalPreferences: React.FC = () => {
           <div className="pt-6 flex justify-end">
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-6 h-12 bg-[#007A5F] text-white rounded-xl hover:bg-[#00664F] transition-all font-bold shadow-lg shadow-[#007A5F]/20 active:scale-95"
+              className="flex items-center gap-2 px-6 h-12 bg-[#007A5F] text-white rounded-lg hover:bg-[#00664F] transition-all font-bold active:scale-95"
             >
               <Save size={18} />
               Salvar Preferências

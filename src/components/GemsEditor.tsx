@@ -188,12 +188,12 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
         <div className="w-1/2 border-r border-slate-200 flex flex-col overflow-hidden">
           {/* Segmented Control */}
           <div className="flex justify-center py-4 px-6">
-            <div className="flex p-1 bg-slate-100 rounded-xl w-full max-w-[400px]">
+            <div className="flex p-1 bg-slate-100 rounded-lg w-full max-w-[400px]">
               <button 
                 onClick={() => setActiveTab('criar')}
                 className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                   activeTab === 'criar' 
-                    ? 'bg-white text-slate-900 shadow-sm' 
+                    ? 'bg-white text-slate-900' 
                     : 'text-slate-500 hover:text-slate-700'
                 }`}
               >
@@ -203,7 +203,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                 onClick={() => setActiveTab('configurar')}
                 className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                   activeTab === 'configurar' 
-                    ? 'bg-white text-slate-900 shadow-sm' 
+                    ? 'bg-white text-slate-900' 
                     : 'text-slate-500 hover:text-slate-700'
                 }`}
               >
@@ -225,7 +225,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                   <div className="flex-1 flex flex-col gap-4">
                     {messages.map((msg, i) => (
                       <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[85%] px-4 py-3 text-sm ${msg.role === 'user' ? 'bg-[#F3F4F6] text-slate-900 rounded-2xl' : 'text-slate-700'}`}>
+                        <div className={`max-w-[85%] px-4 py-3 text-sm ${msg.role === 'user' ? 'bg-[#F3F4F6] text-slate-900 rounded-lg' : 'text-slate-700'}`}>
                           {msg.role === 'assistant' && (
                             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Resposta</div>
                           )}
@@ -236,7 +236,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                   </div>
                   
                   <div className="mt-6">
-                    <div className="border border-slate-200 rounded-2xl bg-white px-4 py-2.5 relative flex items-center gap-3 w-full">
+                    <div className="border border-slate-200 rounded-lg bg-white px-4 py-2.5 relative flex items-center gap-3 w-full">
                       <textarea
                         value={chatInput}
                         onChange={(e) => setChatInput(e.target.value)}
@@ -317,7 +317,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                               initial={{ opacity: 0, y: 5 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: 5 }}
-                              className="absolute left-0 right-0 top-full mt-1 bg-white border border-[#E5E7EB] rounded-lg shadow-xl z-50 overflow-hidden max-h-[300px] overflow-y-auto"
+                              className="absolute left-0 right-0 top-full mt-1 bg-white border border-[#E5E7EB] rounded-lg z-50 overflow-hidden max-h-[300px] overflow-y-auto"
                             >
                               {SKILL_FUNCTIONS.map(func => (
                                 <button
@@ -364,9 +364,9 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                     <section className="space-y-4">
                       <div className="flex flex-col">
                         {/* Info Box */}
-                        <div className="p-4 bg-[#007A5F]/5 rounded-t-xl border border-[#007A5F]/10 border-b-0">
+                        <div className="p-4 bg-[#007A5F]/5 rounded-t-lg border border-[#007A5F]/10 border-b-0">
                           <div className="flex gap-3">
-                            <div className="w-8 h-8 rounded-full bg-[#007A5F] flex items-center justify-center text-white shrink-0 shadow-sm">
+                            <div className="w-8 h-8 rounded-full bg-[#007A5F] flex items-center justify-center text-white shrink-0">
                               <Sparkles size={16} />
                             </div>
                             <div>
@@ -378,14 +378,14 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                           </div>
                         </div>
                         
-                        <div className="border border-dashed border-[#D1D5DB] rounded-b-xl p-6 flex flex-col items-center justify-center bg-white hover:bg-gray-50 hover:border-[#007A5F]/20 transition-all cursor-pointer relative group">
+                        <div className="border border-dashed border-[#D1D5DB] rounded-b-lg p-6 flex flex-col items-center justify-center bg-white hover:bg-gray-50 hover:border-[#007A5F]/20 transition-all cursor-pointer relative group">
                           <input 
                             type="file" 
                             multiple 
                             className="absolute inset-0 opacity-0 cursor-pointer" 
                             onChange={handleFileUpload}
                           />
-                          <div className="w-12 h-12 rounded-full bg-white border border-[#D1D5DB] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                          <div className="w-12 h-12 rounded-full bg-white border border-[#D1D5DB] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                             <Upload size={20} className="text-[#9CA3AF] group-hover:text-[#007A5F]" />
                           </div>
                           <p className="text-xs font-bold text-[#111827]">Clique ou arraste seus modelos e peças</p>
@@ -400,7 +400,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                           {files.map((file, idx) => (
                             <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-[#D1D5DB] rounded-lg group gap-3">
                               <div className="flex items-center gap-3 min-w-0">
-                                <div className="w-8 h-8 rounded bg-gray-50 flex items-center justify-center text-[#6B7280] shrink-0">
+                                <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-[#6B7280] shrink-0">
                                   <FileText size={16} />
                                 </div>
                                 <div className="min-w-0">
@@ -413,7 +413,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                                 <div className="relative purpose-dropdown">
                                   <button
                                     onClick={() => setOpenDropdownIndex(openDropdownIndex === idx ? null : idx)}
-                                    className="flex items-center gap-1.5 text-[11px] font-medium text-[#4B5563] bg-[#F3F4F6] border border-transparent hover:border-[#D1D5DB] rounded-md px-2.5 py-1.5 outline-none focus:ring-1 focus:ring-[#007A5F] transition-all"
+                                    className="flex items-center gap-1.5 text-[11px] font-medium text-[#4B5563] bg-[#F3F4F6] border border-transparent hover:border-[#D1D5DB] rounded-lg px-2.5 py-1.5 outline-none focus:ring-1 focus:ring-[#007A5F] transition-all"
                                   >
                                     {FILE_PURPOSES.find(p => p.id === (file.purpose || 'estilo'))?.label}
                                     <ChevronDown size={14} className="text-[#9CA3AF]" />
@@ -425,7 +425,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                                         initial={{ opacity: 0, y: 5 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 5 }}
-                                        className="absolute right-0 top-full mt-1 w-72 bg-white border border-[#E5E7EB] rounded-lg shadow-xl z-50 overflow-hidden"
+                                        className="absolute right-0 top-full mt-1 w-72 bg-white border border-[#E5E7EB] rounded-lg z-50 overflow-hidden"
                                       >
                                         {FILE_PURPOSES.map(purpose => (
                                           <button
@@ -456,7 +456,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                                 
                                 <button 
                                   onClick={() => setFiles(prev => prev.filter((_, i) => i !== idx))}
-                                  className="p-1.5 text-[#9CA3AF] hover:text-rose-500 hover:bg-rose-50 rounded-md transition-all shrink-0"
+                                  className="p-1.5 text-[#9CA3AF] hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all shrink-0"
                                   title="Remover arquivo"
                                 >
                                   <Trash2 size={16} />
@@ -517,7 +517,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                         <h3 className="text-[14px] font-bold text-[#111827]">Objetividade da resposta</h3>
                         <p className="text-[11px] text-[#6B7280] mt-0.5">Define se as respostas devem ser concisas ou expandir um pouco mais.</p>
                       </div>
-                      <div className="flex p-1 bg-[#F3F4F6] rounded-xl w-full">
+                      <div className="flex p-1 bg-[#F3F4F6] rounded-lg w-full">
                         {['Enxuto', 'Equilibrado', 'Detalhado'].map((option) => (
                           <div key={option} className="flex-1 relative group/tooltip">
                             <button
@@ -525,13 +525,13 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                               onClick={() => setObjetividade(option)}
                               className={`w-full py-2 text-xs font-bold rounded-lg transition-all ${
                                 objetividade === option 
-                                  ? 'bg-white text-[#111827] shadow-sm' 
+                                  ? 'bg-white text-[#111827]' 
                                   : 'text-[#6B7280] hover:text-[#111827]'
                               }`}
                             >
                               {option}
                             </button>
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#111827] text-white text-[10px] rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-[110] text-center shadow-xl">
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#111827] text-white text-[10px] rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-[110] text-center">
                               {OBJETIVIDADE_TOOLTIPS[option]}
                               <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#111827]" />
                             </div>
@@ -546,7 +546,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                         <h3 className="text-[14px] font-bold text-[#111827]">Formalidade jurídica</h3>
                         <p className="text-[11px] text-[#6B7280] mt-0.5">Define o nível de linguagem jurídica das respostas</p>
                       </div>
-                      <div className="flex p-1 bg-[#F3F4F6] rounded-xl w-full">
+                      <div className="flex p-1 bg-[#F3F4F6] rounded-lg w-full">
                         {['Simples', 'Normal', 'Técnica'].map((option) => (
                           <div key={option} className="flex-1 relative group/tooltip">
                             <button
@@ -554,13 +554,13 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                               onClick={() => setFormalidade(option)}
                               className={`w-full py-2 text-xs font-bold rounded-lg transition-all ${
                                 formalidade === option 
-                                  ? 'bg-white text-[#111827] shadow-sm' 
+                                  ? 'bg-white text-[#111827]' 
                                   : 'text-[#6B7280] hover:text-[#111827]'
                               }`}
                             >
                               {option}
                             </button>
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#111827] text-white text-[10px] rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-[110] text-center shadow-xl">
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-[#111827] text-white text-[10px] rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-[110] text-center">
                               {FORMALIDADE_TOOLTIPS[option]}
                               <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#111827]" />
                             </div>
@@ -579,7 +579,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                       </div>
                       <div className="flex flex-wrap gap-1.5 p-2 border border-[#D1D5DB] rounded-lg bg-white min-h-[40px] focus-within:border-[#007A5F] transition-all">
                         {selectedTribunais.map(t => (
-                          <span key={t} className="flex items-center gap-1 px-2 py-0.5 bg-[#F3F4F6] text-[#4B5563] text-[11px] font-bold rounded-md">
+                          <span key={t} className="flex items-center gap-1 px-2 py-0.5 bg-[#F3F4F6] text-[#4B5563] text-[11px] font-bold rounded-lg">
                             {t}
                             <button onClick={() => setSelectedTribunais(prev => prev.filter(item => item !== t))}>
                               <X size={12} />
@@ -604,7 +604,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                             initial={{ opacity: 0, y: 5 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 5 }}
-                            className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-[#E5E7EB] rounded-lg shadow-lg max-h-48 overflow-y-auto custom-scrollbar"
+                            className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-[#E5E7EB] rounded-lg max-h-48 overflow-y-auto custom-scrollbar"
                           >
                             {TRIBUNAIS.filter(t => t.toLowerCase().includes(tribunalQuery.toLowerCase()) && !selectedTribunais.includes(t)).map(t => (
                               <button
@@ -634,7 +634,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                       </div>
                       <div className="flex flex-wrap gap-1.5 p-2 border border-[#D1D5DB] rounded-lg bg-white min-h-[40px] focus-within:border-[#007A5F] transition-all">
                         {selectedAreas.map(a => (
-                          <span key={a} className="flex items-center gap-1 px-2 py-0.5 bg-[#F3F4F6] text-[#4B5563] text-[11px] font-bold rounded-md">
+                          <span key={a} className="flex items-center gap-1 px-2 py-0.5 bg-[#F3F4F6] text-[#4B5563] text-[11px] font-bold rounded-lg">
                             {a}
                             <button onClick={() => setSelectedAreas(prev => prev.filter(item => item !== a))}>
                               <X size={12} />
@@ -659,7 +659,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                             initial={{ opacity: 0, y: 5 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 5 }}
-                            className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-[#E5E7EB] rounded-lg shadow-lg max-h-48 overflow-y-auto custom-scrollbar"
+                            className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-[#E5E7EB] rounded-lg max-h-48 overflow-y-auto custom-scrollbar"
                           >
                             {AREAS_DIREITO.filter(a => a.toLowerCase().includes(areaQuery.toLowerCase()) && !selectedAreas.includes(a)).map(a => (
                               <button
@@ -697,7 +697,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                                 <button
                                   key={iconData.id}
                                   onClick={() => setIconId(iconData.id)}
-                                  className={`w-8 h-8 rounded-md flex items-center justify-center transition-all ${
+                                  className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
                                     isSelected 
                                       ? `${theme?.bg || 'bg-slate-100'}` 
                                       : 'hover:bg-gray-100'
@@ -716,7 +716,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                               <button
                                 key={themeData.id}
                                 onClick={() => setThemeId(themeData.id)}
-                                className={`w-6 h-6 rounded-md ${themeData.bg} ${themeData.text} flex items-center justify-center transition-all ${
+                                className={`w-6 h-6 rounded-lg ${themeData.bg} ${themeData.text} flex items-center justify-center transition-all ${
                                   themeId === themeData.id ? 'ring-2 ring-offset-1 ring-[#007A5F]' : 'opacity-70 hover:opacity-100'
                                 }`}
                               >
@@ -746,7 +746,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
           <div className="flex-1 flex flex-col items-center justify-center p-12 overflow-y-auto custom-scrollbar">
             {previewMessages.length === 0 ? (
               <div className="flex flex-col items-center text-center max-w-md">
-                <div className={`w-20 h-20 rounded-2xl ${COLOR_THEMES.find(t => t.id === themeId)?.bg || 'bg-blue-500'} flex items-center justify-center ${COLOR_THEMES.find(t => t.id === themeId)?.text || 'text-white'} shadow-xl mb-6`}>
+                <div className={`w-20 h-20 rounded-lg ${COLOR_THEMES.find(t => t.id === themeId)?.bg || 'bg-blue-500'} flex items-center justify-center ${COLOR_THEMES.find(t => t.id === themeId)?.text || 'text-white'} mb-6`}>
                   {React.createElement(LEGAL_ICONS.find(i => i.id === iconId)?.icon || Sparkles, { size: 40 })}
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{name || 'Especialista em Contratos'}</h3>
@@ -759,7 +759,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                       onClick={() => {
                         setPreviewMessages([{ role: 'user', content: phrase }, { role: 'assistant', content: `Olá! Eu sou o ${name || 'seu novo agente'}. Como posso ajudar você hoje?` }]);
                       }}
-                      className="px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-600 hover:border-slate-400 transition-all text-left"
+                      className="px-4 py-3 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:border-slate-400 transition-all text-left"
                     >
                       {phrase}
                     </button>
@@ -773,7 +773,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-slate-200 text-slate-600' : `${COLOR_THEMES.find(t => t.id === themeId)?.bg || 'bg-blue-500'} ${COLOR_THEMES.find(t => t.id === themeId)?.text || 'text-white'}`}`}>
                       {msg.role === 'user' ? <MessageSquare size={16} /> : React.createElement(LEGAL_ICONS.find(i => i.id === iconId)?.icon || Sparkles, { size: 16 })}
                     </div>
-                    <div className={`max-w-[80%] px-4 py-3 text-sm ${msg.role === 'user' ? 'bg-[#F3F4F6] text-slate-900 rounded-2xl' : 'text-slate-700'}`}>
+                    <div className={`max-w-[80%] px-4 py-3 text-sm ${msg.role === 'user' ? 'bg-[#F3F4F6] text-slate-900 rounded-lg' : 'text-slate-700'}`}>
                       {msg.role === 'assistant' && (
                         <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Resposta</div>
                       )}
@@ -788,7 +788,7 @@ export function GemsEditor({ gem, onSave, onClose }: GemsEditorProps) {
           {/* Preview Input */}
           <div className="p-6 bg-white">
             <div className="max-w-2xl mx-auto">
-              <div className="border border-slate-200 rounded-2xl bg-white px-4 py-2.5 relative flex items-center gap-3 w-full">
+              <div className="border border-slate-200 rounded-lg bg-white px-4 py-2.5 relative flex items-center gap-3 w-full">
                 <textarea
                   value={previewInput}
                   onChange={(e) => setPreviewInput(e.target.value)}

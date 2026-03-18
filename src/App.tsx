@@ -1,5 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { SnippetList } from './SnippetList';
 import {
   SquarePen,
@@ -357,25 +359,31 @@ export default function App() {
   const [currentView, setCurrentView] = useState<'home' | 'conversation' | 'skills' | 'global_preferences' | 'gems_editor'>('home');
   const [activeConversationId, setActiveConversationId] = useState<number | null>(null);
   const [isVersionsMenuOpen, setIsVersionsMenuOpen] = useState(false);
-  const [appVersion, setAppVersion] = useState<'habilidades' | 'personalizacao_habilidade' | 'gpt_gems'>('habilidades');
+  const [executionMode, setExecutionMode] = useState<'padrao' | 'plano'>('padrao');
+  const [isPlanning, setIsPlanning] = useState(false);
+  const [planContent, setPlanContent] = useState('');
+  const [userMessage, setUserMessage] = useState('');
+  const [appVersion, setAppVersion] = useState<'habilidades' | 'personalizacao_habilidade' | 'gpt_gems' | 'modo_plano'>('habilidades');
 
   // Handle version from URL query parameter
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const version = params.get('v');
-    if (version === 'habilidades' || version === 'personalizacao_habilidade' || version === 'gpt_gems') {
+    if (version === 'habilidades' || version === 'personalizacao_habilidade' || version === 'gpt_gems' || version === 'modo_plano') {
       setAppVersion(version as any);
     }
   }, []);
 
   // Update URL when version changes
-  const handleVersionChange = (version: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems') => {
+  const handleVersionChange = (version: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems' | 'modo_plano') => {
     setAppVersion(version);
     setCurrentView('home');
     setActiveConversationId(null);
     setActiveGemId(null);
     setActiveSkill(null);
     setInputText('');
+    setIsBuildOpen(false);
+    setExecutionMode('padrao');
     
     const url = new URL(window.location.href);
     url.searchParams.set('v', version);
@@ -458,7 +466,50 @@ export default function App() {
 
   const handleSubmit = () => {
     if (inputText.trim()) {
-      setCurrentView('conversation');
+      const message = inputText.trim();
+      setUserMessage(message);
+      
+      if (appVersion === 'modo_plano' && executionMode === 'plano') {
+        setIsPlanning(true);
+        setCurrentView('conversation');
+        setActiveConversationId(1); // Mock active conversation
+        
+        // Simulate planning process
+        setTimeout(() => {
+          setIsPlanning(false);
+          setPlanContent(`### Plano de Execução: Elaboração de Termo de Quitação
+
+Para garantir que o seu acordo seja formalizado com total segurança jurídica, estruturei um plano detalhado para a criação do seu **Termo de Quitação**. Este documento servirá como prova definitiva de que o pagamento foi realizado e que não restam pendências entre as partes.
+
+---
+
+#### 1. Qualificação Detalhada das Partes
+Irei identificar formalmente quem está pagando e quem está recebendo com base nos dados que você me forneceu. Isso evita qualquer dúvida sobre a identidade dos envolvidos no futuro.
+
+#### 2. Descrição Precisa do Evento
+Irei redigir o relato do acidente de forma objetiva, incluindo data, hora e local. Isso vincula o pagamento especificamente a este fato.
+
+#### 3. Formalização do Acordo Financeiro
+Irei registrar o valor exato de **R$ 1.500,00 (um mil e quinhentos reais)** e como ele será entregue, garantindo que o método de pagamento seja rastreável.
+
+#### 4. Cláusula de Quitação e Renúncia (Segurança)
+Irei redigir a cláusula de quitação plena e irrevogável. Nela, o recebedor declara que, ao receber o valor, dá por quitada qualquer dívida e renuncia ao direito de pedir mais dinheiro no futuro por este mesmo acidente.
+
+#### 5. Foro e Assinaturas
+Irei definir o foro para resolução de eventuais conflitos e prepararei o espaço para as assinaturas digitais ou físicas.
+
+---
+
+#### Checklist de Próximas Ações:
+- [ ] Irei verificar as legislações pertinentes no Jusbrasil para garantir a validade das cláusulas.
+- [ ] Irei identificar jurisprudências iguais para reforçar a segurança do termo.
+- [ ] Irei redigir a parte de quitação da peça, falando sobre a renúncia de direitos futuros.
+- [ ] Irei redigir a parte de identificação dos veículos, falando sobre os danos reparados.
+- [ ] E por fim, uma conclusão sobre a validade do acordo entre as partes.`);
+        }, 10000);
+      } else {
+        setCurrentView('conversation');
+      }
       // In a real app, we would add the message to the conversation state here
     }
   };
@@ -544,6 +595,8 @@ export default function App() {
                 onClick={() => setCurrentView('skills')}
                 isActive={currentView === 'skills'}
               />
+            ) : appVersion === 'modo_plano' ? (
+              null
             ) : (
               <div 
                 className="relative"
@@ -564,7 +617,7 @@ export default function App() {
                       initial={{ opacity: 0, x: 5 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 5 }}
-                      className="fixed left-[280px] bg-white border border-slate-200 rounded-xl shadow-2xl py-2 z-[999] min-w-[220px]"
+                      className="fixed left-[280px] bg-white border border-slate-200 rounded-lg py-2 z-[999] min-w-[220px]"
                       style={{ 
                         top: 'auto',
                         marginTop: '-36px'
@@ -729,7 +782,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                className="absolute bottom-full left-0 right-0 mb-4 bg-white border border-slate-200 rounded-xl shadow-2xl py-2 z-[100] min-w-[240px]"
+                className="absolute bottom-full left-0 right-0 mb-4 bg-white border border-slate-200 rounded-lg py-2 z-[100] min-w-[240px]"
                 style={{ marginLeft: '1rem', marginRight: '1rem' }}
               >
                 <div 
@@ -751,7 +804,7 @@ export default function App() {
                         initial={{ opacity: 0, x: 5 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 5 }}
-                        className="absolute left-full bottom-0 ml-1 bg-white border border-slate-200 rounded-xl shadow-2xl py-2 z-[110] min-w-[240px]"
+                        className="absolute left-full bottom-0 ml-1 bg-white border border-slate-200 rounded-lg py-2 z-[110] min-w-[240px]"
                       >
                         <button 
                           onClick={() => handleVersionChange('habilidades')}
@@ -766,6 +819,13 @@ export default function App() {
                         >
                           <span className="font-medium">Personalização e Habilidade</span>
                           {appVersion === 'personalizacao_habilidade' && <Check size={14} className="ml-auto text-[#007A5F]" />}
+                        </button>
+                        <button 
+                          onClick={() => handleVersionChange('modo_plano')}
+                          className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors whitespace-nowrap ${appVersion === 'modo_plano' ? 'bg-[#E6F4F0] text-[#007A5F]' : 'text-slate-700 hover:bg-slate-50'}`}
+                        >
+                          <span className="font-medium">Modo Plano</span>
+                          {appVersion === 'modo_plano' && <Check size={14} className="ml-auto text-[#007A5F]" />}
                         </button>
                         <button 
                           onClick={() => handleVersionChange('gpt_gems')}
@@ -822,6 +882,8 @@ export default function App() {
                 setActiveSkill={setActiveSkill}
                 skills={skills}
                 appVersion={appVersion}
+                executionMode={executionMode}
+                setExecutionMode={setExecutionMode}
               />
 
               {/* Suggestions */}
@@ -916,6 +978,11 @@ export default function App() {
               activeGemId={activeGemId}
               activeConversationId={activeConversationId}
               gems={gems}
+              isPlanning={isPlanning}
+              executionMode={executionMode}
+              setExecutionMode={setExecutionMode}
+              userMessage={userMessage}
+              planContent={planContent}
             />
           </motion.div>
           <AnimatePresence>
@@ -926,17 +993,26 @@ export default function App() {
                 exit={{ width: 0, opacity: 0 }}
                 className="border-l border-slate-200 bg-white h-full flex flex-col overflow-hidden"
               >
-                <div className="flex items-center px-4 h-[56px] shrink-0">
-                  <button 
-                    onClick={() => setIsBuildOpen(false)} 
-                    className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-50 transition-colors flex-shrink-0"
-                  >
-                    <X size={20} />
-                  </button>
-                  <h2 className="text-[16px] font-bold ml-3">Fontes</h2>
+                <div className="flex items-center justify-between px-4 h-[56px] shrink-0 border-b border-slate-100">
+                  <div className="flex items-center">
+                    {appVersion !== 'modo_plano' && (
+                      <button 
+                        onClick={() => setIsBuildOpen(false)} 
+                        className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:bg-slate-50 transition-colors flex-shrink-0"
+                      >
+                        <X size={20} />
+                      </button>
+                    )}
+                    <h2 className={`text-[16px] font-bold ${appVersion !== 'modo_plano' ? 'ml-3' : ''}`}>
+                      {appVersion === 'modo_plano' ? 'Plano' : 'Fontes'}
+                    </h2>
+                  </div>
                 </div>
-                <div className="flex-1 p-6 overflow-y-auto custom-scrollbar">
-                  <SnippetList />
+                
+                <div className="flex-1 flex flex-col overflow-hidden">
+                  <div className="flex-1 p-6 overflow-y-auto custom-scrollbar">
+                    <SnippetList />
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -987,20 +1063,20 @@ export default function App() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm"
+              className="relative bg-white rounded-lg p-6 w-full max-w-sm"
             >
               <h3 className="text-lg font-semibold text-slate-900 mb-2">Excluir conversa?</h3>
               <p className="text-slate-600 mb-6">Esta ação não pode ser desfeita e a conversa será removida permanentemente.</p>
               <div className="flex gap-3 justify-end">
                 <button 
                   onClick={() => setDeleteModal({ isOpen: false, id: null })}
-                  className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors font-semibold"
+                  className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors font-semibold"
                 >
                   Cancelar
                 </button>
                 <button 
                   onClick={handleDeleteConversation}
-                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-colors font-semibold"
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors font-semibold"
                 >
                   Excluir
                 </button>
@@ -1040,7 +1116,7 @@ function SidebarItem({ icon, label, isCollapsed, onClick, isActive, badge }: { i
         )}
       </AnimatePresence>
       {isCollapsed && (
-        <div className="absolute left-full ml-2 px-2 py-1 bg-[#1D1D1D] text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+        <div className="absolute left-full ml-2 px-2 py-1 bg-[#1D1D1D] text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
           {label}
         </div>
       )}
@@ -1080,7 +1156,7 @@ function SidebarTextItem({ label, isCollapsed, onOptionsClick, onClick, icon }: 
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
             }}
-            className={`p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-all ${isMenuOpen ? 'opacity-100 bg-slate-200' : 'opacity-0 group-hover:opacity-100'}`}
+            className={`p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-all ${isMenuOpen ? 'opacity-100 bg-slate-200' : 'opacity-0 group-hover:opacity-100'}`}
           >
             <MoreVertical size={16} />
           </button>
@@ -1091,7 +1167,7 @@ function SidebarTextItem({ label, isCollapsed, onOptionsClick, onClick, icon }: 
                 initial={{ opacity: 0, scale: 0.95, y: -10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                className="absolute right-0 mt-1 w-32 bg-white border border-slate-200 rounded-xl shadow-xl py-1 z-50"
+                className="absolute right-0 mt-1 w-32 bg-white border border-slate-200 rounded-lg py-1 z-50"
               >
                 <button 
                   onClick={(e) => {

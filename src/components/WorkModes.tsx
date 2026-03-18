@@ -23,9 +23,9 @@ export function WorkModes() {
             <motion.div
               key={mode.id}
               whileHover={{ scale: 1.02 }}
-              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+              className="bg-white p-6 rounded-lg border border-slate-200 transition-all cursor-pointer group"
             >
-              <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-600 mb-4 group-hover:bg-[#E6F4F0] group-hover:text-[#007A5F] transition-colors">
+              <div className="w-12 h-12 rounded-lg bg-slate-50 flex items-center justify-center text-slate-600 mb-4 group-hover:bg-[#E6F4F0] group-hover:text-[#007A5F] transition-colors">
                 {mode.icon}
               </div>
               <h3 className="text-lg font-bold text-slate-900 mb-2">{mode.name}</h3>
