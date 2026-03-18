@@ -371,6 +371,12 @@ export default function App() {
   // Update URL when version changes
   const handleVersionChange = (version: 'habilidades' | 'personalizacao_habilidade' | 'gpt_gems') => {
     setAppVersion(version);
+    setCurrentView('home');
+    setActiveConversationId(null);
+    setActiveGemId(null);
+    setActiveSkill(null);
+    setInputText('');
+    
     const url = new URL(window.location.href);
     url.searchParams.set('v', version);
     window.history.pushState({}, '', url.toString());
